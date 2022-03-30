@@ -12,7 +12,7 @@ import {
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Product, ProductConnector } from '@spartacus/core';
 import { forkJoin, from, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { bufferCount, catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,7 @@ export class QuickOrderOrderEntriesContext
     return this.quickOrderService.getEntries();
   }
 
-  addEntries(productsData: ProductData[]): Observable<ProductImportInfo> {
+  addEntries(productsData: ProductData[]): Observable<Array<ProductImportInfo>> {
     const results$ = new Subject<ProductImportInfo>();
 
     forkJoin(
@@ -75,7 +75,10 @@ export class QuickOrderOrderEntriesContext
         )
       )
       .subscribe();
-    return results$.pipe(take(productsData.length));
+    return results$.pipe(
+      bufferCount(productsData.length),
+      take(1)
+    );
   }
 
   protected handleResults(

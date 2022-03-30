@@ -14,6 +14,7 @@ import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
+  bufferCount,
   distinctUntilChanged,
   map,
   switchMap,
@@ -42,10 +43,14 @@ export class SavedCartOrderEntriesContext
     distinctUntilChanged()
   );
 
-  addEntries(products: ProductData[]): Observable<ProductImportInfo> {
+  addEntries(products: ProductData[]): Observable<Array<ProductImportInfo>> {
     return this.add(products).pipe(
       switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
-      take(products.length)
+      bufferCount(products.length),
+      take(1),
+      map(stuff => {
+        return stuff;
+      })
     );
   }
 

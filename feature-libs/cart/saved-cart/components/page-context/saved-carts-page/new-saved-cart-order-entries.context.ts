@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ProductImportInfoService } from '@spartacus/cart/base/core';
+import { ofType } from '@ngrx/effects';
+import { ActionsSubject } from '@ngrx/store';
+import { CartActions, ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
   AddOrderEntriesContext,
   Cart,
@@ -10,8 +12,10 @@ import {
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
-import { Observable, queueScheduler } from 'rxjs';
+import { Observable, of, queueScheduler, throwError } from 'rxjs';
 import {
+  bufferCount,
+  concatMap,
   delayWhen,
   filter,
   map,
@@ -31,16 +35,35 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
     protected importInfoService: ProductImportInfoService,
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
-    protected savedCartService: SavedCartFacade
+    protected savedCartService: SavedCartFacade,
+    private actionsSubject: ActionsSubject
   ) {}
 
   addEntries(
     products: ProductData[],
     savedCartInfo?: { name: string; description: string }
-  ): Observable<ProductImportInfo> {
+  ): Observable<Array<ProductImportInfo>> {
     return this.add(products, savedCartInfo).pipe(
-      switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
-      take(products.length)
+      switchMap(
+        (cartId: string) =>
+          this.importInfoService.getResults(cartId).pipe(
+            bufferCount(products.length),
+            take(1),
+            map(productInfo => ({ productInfo, cartId }))
+          )
+      ),
+      concatMap(({ productInfo, cartId }) => {
+        if (productInfo.every(s => s.statusCode === 'unknownError' || s.statusCode === 'unknownIdentifier')) {
+          this.savedCartService.deleteSavedCart(cartId);
+          return this.actionsSubject.pipe(
+            ofType(CartActions.DELETE_CART_SUCCESS),
+            filter((action: CartActions.DeleteCartSuccess) => action.payload.cartId === cartId),
+            take(1),
+            concatMap(() => throwError(productInfo))
+          );
+        }
+        return of(productInfo);
+      })
     );
   }
 

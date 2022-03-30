@@ -13,7 +13,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { finalize, pluck } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -75,38 +75,40 @@ export class ImportEntriesDialogComponent {
     });
     context
       .addEntries(products, savedCartInfo)
-      .pipe(
-        finalize(() => {
-          this.summary$.next({
-            ...this.summary$.value,
-            loading: false,
-          });
-        })
-      )
-      .subscribe((action: ProductImportInfo) => {
-        this.populateSummary(action);
-      });
+      .subscribe(
+          (actions: Array<ProductImportInfo>) => {
+            const summary: ProductImportSummary = {
+              ...this.summary$.value,
+              loading: false,
+            };
+
+            actions.forEach(action => this.populateSummary(action, summary));
+
+            this.summary$.next(summary);
+          },
+          error => {
+            this.summary$.next({
+              ...this.summary$.value,
+              warningMessages: error,
+              count: products.length,
+              loading: false,
+            });
+          }
+       );
   }
 
-  protected populateSummary(action: ProductImportInfo): void {
-    if (action.statusCode === ProductImportStatus.SUCCESS) {
-      this.summary$.next({
-        ...this.summary$.value,
-        count: this.summary$.value.count + 1,
-        successesCount: this.summary$.value.successesCount + 1,
-      });
-    } else if (action.statusCode === ProductImportStatus.LOW_STOCK) {
-      this.summary$.next({
-        ...this.summary$.value,
-        count: this.summary$.value.count + 1,
-        warningMessages: [...this.summary$.value.warningMessages, action],
-      });
-    } else {
-      this.summary$.next({
-        ...this.summary$.value,
-        count: this.summary$.value.count + 1,
-        errorMessages: [...this.summary$.value.errorMessages, action],
-      });
+  protected populateSummary(action: ProductImportInfo, summary: ProductImportSummary): void {
+    summary.count++;
+    switch (action.statusCode) {
+      case ProductImportStatus.SUCCESS:
+        summary.successesCount++;
+        break;
+      case ProductImportStatus.LOW_STOCK:
+        summary.warningMessages = [...summary.warningMessages, action];
+        break;
+      default:
+        summary.errorMessages = [...summary.errorMessages, action];
+        break;
     }
   }
 }

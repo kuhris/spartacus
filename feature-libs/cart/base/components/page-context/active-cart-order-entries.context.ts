@@ -10,7 +10,7 @@ import {
   ProductImportInfo,
 } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { bufferCount, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +25,12 @@ export class ActiveCartOrderEntriesContext
     protected activeCartFacade: ActiveCartFacade
   ) {}
 
-  addEntries(products: ProductData[]): Observable<ProductImportInfo> {
+addEntries(products: ProductData[]): Observable<Array<ProductImportInfo>> {
     return this.add(products).pipe(
       switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
-      take(products.length)
+      take(products.length),
+      bufferCount(products.length),
+      take(1)
     );
   }
 

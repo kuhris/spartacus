@@ -21,5 +21,5 @@ export interface AddOrderEntriesContext {
   addEntries(
     products: ProductData[],
     savedCartInfo?: { name: string; description: string }
-  ): Observable<ProductImportInfo>;
+  ): Observable<Array<ProductImportInfo>>;
 }
