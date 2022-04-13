@@ -181,7 +181,7 @@ const REMOVE_PARAMETER_EXPECTED_CLASS = `
 import { Dummy } from '@angular/core';
 import {
   CmsService,
-  
+
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -189,7 +189,7 @@ export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
     cms: CmsService
-    
+
   ) {
     super(resolvers, cms );
   }
@@ -219,7 +219,7 @@ const REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS = `
 import { ActionsSubject } from '@ngrx/store';
 import {
   CmsService,
-  
+
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -363,7 +363,7 @@ import {
   Renderer2, ChangeDetectorRef,
 } from '@angular/core';
 import {
-  
+
   CmsService,
   ContentSlotData,
   DynamicAttributeService,
@@ -423,7 +423,7 @@ import {
   PageMetaService,
   PageMetaResolver,
   CmsService,
-  
+
 } from '@spartacus/core';
 import {Injectable, Inject} from '@angular/core';
 @Injectable({})
@@ -432,12 +432,40 @@ export class CustomPageMetaService extends PageMetaService {
       @Inject(PageMetaResolver)
       protected resolvers: PageMetaResolver[],
       protected cms: CmsService
-      
+
   ) {
       super(resolvers, cms );
   }
 }
 `;
+
+
+const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_COMPONENT_VALID_TEST_CLASS = `
+    import { ConfiguratorAttributeInputFieldComponent, ConfiguratorUISettingsConfig, ConfiguratorAttributeNumericInputFieldService } from '@spartacus/product-configurator/rulebased';
+    export class InheritingComponent extends ConfiguratorAttributeNumericInputFieldComponent {
+      constructor(
+        protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+        protected config: ConfiguratorUISettingsConfig
+      ) {
+        super(configAttributeNumericInputFieldService, config);
+      }
+    }
+`;
+
+const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_COMPONENT_EXPECTED_CLASS = `
+    import { ConfiguratorAttributeInputFieldComponent, ConfiguratorUISettingsConfig, ConfiguratorAttributeNumericInputFieldService } from '@spartacus/product-configurator/rulebased';
+    import { TranslationService } from '@spartacus/core';
+    export class InheritingComponent extends ConfiguratorAttributeNumericInputFieldComponent {
+      constructor(
+        protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+        protected config: ConfiguratorUISettingsConfig,
+        protected translationService: TranslationService
+      ) {
+        super(configAttributeNumericInputFieldService, config, translationService);
+      }
+    }
+`;
+
 
 describe('constructor migrations', () => {
   let host: TempScopedNodeJsSyncHost;
@@ -726,6 +754,21 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(AT_INJECT_EXPECTED);
+    });
+  });
+
+  describe('when all the pre-conditions are valid for adding new dependency', () => {
+    it('should make the required changes', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_COMPONENT_VALID_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_COMPONENT_EXPECTED_CLASS);
     });
   });
 });
