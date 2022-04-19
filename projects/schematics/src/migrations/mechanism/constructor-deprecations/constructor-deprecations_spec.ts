@@ -189,7 +189,7 @@ export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
     cms: CmsService
-  
+    
   ) {
     super(resolvers, cms );
   }
