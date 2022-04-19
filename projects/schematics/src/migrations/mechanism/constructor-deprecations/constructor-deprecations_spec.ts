@@ -441,29 +441,28 @@ export class CustomPageMetaService extends PageMetaService {
 
 
 const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_COMPONENT_VALID_TEST_CLASS = `
-    import { ConfiguratorAttributeInputFieldComponent, ConfiguratorUISettingsConfig, ConfiguratorAttributeNumericInputFieldService } from '@spartacus/product-configurator/rulebased';
-    export class InheritingComponent extends ConfiguratorAttributeNumericInputFieldComponent {
-      constructor(
-        protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-        protected config: ConfiguratorUISettingsConfig
-      ) {
-        super(configAttributeNumericInputFieldService, config);
-      }
-    }
+import { ConfiguratorAttributeNumericInputFieldComponent, ConfiguratorUISettingsConfig, ConfiguratorAttributeNumericInputFieldService } from '@spartacus/product-configurator/rulebased';
+export class InheritingComponent extends ConfiguratorAttributeNumericInputFieldComponent {
+  constructor(
+    protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+    protected config: ConfiguratorUISettingsConfig
+  ) {
+    super(configAttributeNumericInputFieldService, config);
+  }
+}
 `;
 
 const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_COMPONENT_EXPECTED_CLASS = `
-    import { ConfiguratorAttributeInputFieldComponent, ConfiguratorUISettingsConfig, ConfiguratorAttributeNumericInputFieldService } from '@spartacus/product-configurator/rulebased';
-    import { TranslationService } from '@spartacus/core';
-    export class InheritingComponent extends ConfiguratorAttributeNumericInputFieldComponent {
-      constructor(
-        protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-        protected config: ConfiguratorUISettingsConfig,
-        protected translationService: TranslationService
-      ) {
-        super(configAttributeNumericInputFieldService, config, translationService);
-      }
-    }
+import { ConfiguratorAttributeNumericInputFieldComponent, ConfiguratorUISettingsConfig, ConfiguratorAttributeNumericInputFieldService } from '@spartacus/product-configurator/rulebased';
+import { TranslationService } from '@spartacus/core';
+export class InheritingComponent extends ConfiguratorAttributeNumericInputFieldComponent {
+  constructor(
+    protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+    protected config: ConfiguratorUISettingsConfig, translationService: TranslationService
+  ) {
+    super(configAttributeNumericInputFieldService, config, translationService);
+  }
+}
 `;
 
 
