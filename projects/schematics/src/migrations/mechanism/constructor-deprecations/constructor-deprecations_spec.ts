@@ -181,7 +181,7 @@ const REMOVE_PARAMETER_EXPECTED_CLASS = `
 import { Dummy } from '@angular/core';
 import {
   CmsService,
-
+  
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -189,7 +189,7 @@ export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
     cms: CmsService
-
+  
   ) {
     super(resolvers, cms );
   }
@@ -219,7 +219,7 @@ const REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS = `
 import { ActionsSubject } from '@ngrx/store';
 import {
   CmsService,
-
+  
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -363,7 +363,7 @@ import {
   Renderer2, ChangeDetectorRef,
 } from '@angular/core';
 import {
-
+  
   CmsService,
   ContentSlotData,
   DynamicAttributeService,
@@ -423,7 +423,7 @@ import {
   PageMetaService,
   PageMetaResolver,
   CmsService,
-
+  
 } from '@spartacus/core';
 import {Injectable, Inject} from '@angular/core';
 @Injectable({})
@@ -432,7 +432,7 @@ export class CustomPageMetaService extends PageMetaService {
       @Inject(PageMetaResolver)
       protected resolvers: PageMetaResolver[],
       protected cms: CmsService
-
+      
   ) {
       super(resolvers, cms );
   }
