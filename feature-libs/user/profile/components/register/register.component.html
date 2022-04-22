@@ -97,7 +97,9 @@
               <span class="label-content">{{
                 'register.password.label' | cxTranslate
               }}</span>
-              <div class="cx-password-input">
+                <cx-password-visibility
+                  formCtrlName="password"
+                ></cx-password-visibility>
                 <input
                   required="true"
                   class="form-control"
@@ -110,10 +112,7 @@
                   [attr.aria-label]="
                     'register.password.placeholder' | cxTranslate
                   "
-                /><cx-password-visibility
-                  formCtrlName="password"
-                ></cx-password-visibility>
-              </div>
+                />
               <cx-form-errors
                 [control]="registerForm.get('password')"
               ></cx-form-errors>
@@ -125,7 +124,9 @@
               <span class="label-content">{{
                 'register.confirmPassword.label' | cxTranslate
               }}</span>
-              <div class="cx-password-input">
+                <cx-password-visibility
+                  formCtrlName="passwordconf"
+                ></cx-password-visibility>
                 <input
                   required="true"
                   class="form-control"
@@ -138,10 +139,7 @@
                   [attr.aria-label]="
                     'register.confirmPassword.placeholder' | cxTranslate
                   "
-                /><cx-password-visibility
-                  formCtrlName="passwordconf"
-                ></cx-password-visibility>
-              </div>
+                />
               <cx-form-errors
                 [control]="registerForm.get('passwordconf')"
               ></cx-form-errors>
