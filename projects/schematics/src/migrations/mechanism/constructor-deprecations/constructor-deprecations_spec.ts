@@ -484,7 +484,6 @@ export class CustomPageMetaService extends PageMetaService {
 }
 `;
 
-
 const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_COMPONENT_VALID_TEST_CLASS = `
 import { ConfiguratorAttributeNumericInputFieldComponent, ConfiguratorUISettingsConfig, ConfiguratorAttributeNumericInputFieldService } from '@spartacus/product-configurator/rulebased';
 export class InheritingComponent extends ConfiguratorAttributeNumericInputFieldComponent {
@@ -510,6 +509,27 @@ export class InheritingComponent extends ConfiguratorAttributeNumericInputFieldC
 }
 `;
 
+const CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_VALID_TEST_CLASS = `
+import {
+  ConfiguratorAttributeHeaderComponent, ConfiguratorStorefrontUtilsService,
+} from '@spartacus/product-configurator/rulebased';
+export class InheritingComponent extends ConfiguratorAttributeHeaderComponent {
+  constructor(protected configUtilService: ConfiguratorStorefrontUtilsService) {
+    super(configUtilService);
+  }
+}
+`;
+
+const CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_EXPECTED_CLASS = `
+import {
+  ConfiguratorAttributeHeaderComponent, ConfiguratorStorefrontUtilsService, ConfiguratorCommonsService, ConfiguratorGroupsService, ConfiguratorUISettingsConfig,
+} from '@spartacus/product-configurator/rulebased';
+export class InheritingComponent extends ConfiguratorAttributeHeaderComponent {
+  constructor(protected configUtilService: ConfiguratorStorefrontUtilsService, configuratorCommonsService: ConfiguratorCommonsService, configuratorGroupsService: ConfiguratorGroupsService, configuratorUISettingsConfig: ConfiguratorUISettingsConfig) {
+    super(configUtilService, configuratorCommonsService, configuratorGroupsService, configuratorUISettingsConfig);
+  }
+}
+`;
 
 describe('constructor migrations', () => {
   let host: TempScopedNodeJsSyncHost;
@@ -829,7 +849,26 @@ describe('constructor migrations', () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
-      expect(content).toEqual(CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_COMPONENT_EXPECTED_CLASS);
+      expect(content).toEqual(
+        CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_COMPONENT_EXPECTED_CLASS
+      );
+    });
+  });
+
+  describe('when all the pre-conditions are valid for adding new dependency', () => {
+    it('should make the required changes', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_VALID_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(
+        CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_EXPECTED_CLASS
+      );
     });
   });
 });

@@ -18,6 +18,7 @@ import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migrat
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
 import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
+import { CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_MIGRATION } from './data/configurator-attribute-header.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -35,6 +36,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   SELECTIVE_CART_SERVICE_MIGRATION,
   ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION,
+  CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
