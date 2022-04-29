@@ -9,13 +9,17 @@ import {
   SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 import {
   I18nTestingModule,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { OutletDirective, OutletModule } from '@spartacus/storefront';
+import { CmsComponentData, OutletDirective, OutletModule, PageComponentModule } from '@spartacus/storefront';
+import { AddToCartComponent, AddToCartModule } from 'feature-libs/cart/base/components/add-to-cart';
+import { BehaviorSubject } from 'rxjs';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -204,5 +208,103 @@ describe('ProductGridItemComponent in product-list', () => {
       product: { currentValue: component.product } as SimpleChange,
     });
     expect(contextSource.product$.next).toHaveBeenCalledWith(mockProduct);
+  });
+});
+
+describe('ProductGridItemComponent in product-list with AddToCartComponent', () => {
+  // Addition
+  @Component({
+    selector: 'cx-product-grid-item-test',
+    template: '<cx-product-grid-item [product]="product"></cx-product-grid-item>',
+  })
+  class TestComponent {
+    product: any;
+  }
+
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
+
+  const mockProduct = {
+    name: 'Test product',
+    nameHtml: 'Test product',
+    code: '1',
+    averageRating: 4.5,
+    stock: {
+      stockLevelStatus: 'inStock',
+    },
+    price: {
+      formattedValue: '$100,00',
+    },
+    images: {
+      PRIMARY: {},
+    },
+  };
+
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule,
+          I18nTestingModule,
+          OutletModule,
+          AddToCartModule, // Addition
+          PageComponentModule.forRoot(), // Addition
+          StoreModule.forRoot({}), // Addition
+        ],
+        declarations: [
+          ProductGridItemComponent,
+          TestComponent,
+          MockMediaComponent,
+          MockAddToCartComponent,
+          MockStarRatingComponent,
+          MockUrlPipe,
+          MockCxIconComponent,
+          MockFeatureLevelDirective,
+          // MockOutletDirective, // Removal
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+          {
+            provide: CmsComponentData, // Addition
+            useValue: {
+              data$: new BehaviorSubject({
+                composition: {
+                  inner: ['ProductAddToCartComponent'],
+                },
+              }),
+              uuid: 'componentData001',
+            },
+          },
+        ],
+      })
+        .overrideComponent(ProductGridItemComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
+
+    component.product = mockProduct;
+
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should render the Add To Cart Button', () => {
+    expect(fixture.debugElement.query(By.directive(AddToCartComponent))).toBeTruthy();
   });
 });
