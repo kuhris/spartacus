@@ -11,7 +11,7 @@ import {
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Title, UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap, switchMap } from 'rxjs/operators';
 import { OrganizationUserRegistration } from '../../core/model';
 import { UserRegistrationFacade } from '../../root/facade/user-registration.facade';
 @Injectable({
@@ -78,6 +78,20 @@ export class UserRegistrationFormService {
     return this.organizationUserRegistrationFacade.registerUser(userData);
   }
 
+  submit(form: FormGroup): Observable<OrganizationUserRegistration> {
+    return this.buildMessageContent(form).pipe(
+      take(1),
+      switchMap((message: string) =>
+        this.registerUser({
+          firstName: form.get('firstName')?.value,
+          lastName: form.get('lastName')?.value,
+          email: form.get('email')?.value,
+          message,
+        })
+      ),
+      tap(() => this.displayGlobalMessage())
+    );
+  }
   /**
    * Takes form values and builds custom message content.
    */

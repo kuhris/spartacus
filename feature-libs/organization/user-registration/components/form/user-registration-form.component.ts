@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Country, Region } from '@spartacus/core';
 import { Title } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
 @Component({
@@ -45,15 +45,7 @@ export class UserRegistrationFormComponent implements OnInit {
   }
 
   countrySelected(country: Country): void {
-    this.registerForm
-      .get('country')
-      ?.get('isocode')
-      ?.setValue(country?.isocode);
     this.selectedCountry$.next(country?.isocode);
-  }
-
-  regionSelected(region: Region): void {
-    this.registerForm.get('region')?.get('isocode')?.setValue(region?.isocode);
   }
 
   submitForm(): void {
@@ -67,26 +59,12 @@ export class UserRegistrationFormComponent implements OnInit {
 
   register(): void {
     this.isLoading$.next(true);
-
-    this.userRegistrationFormService
-      .buildMessageContent(this.registerForm)
-      .pipe(take(1))
-      .subscribe((content) => (this.messageContent = content));
-
-    this.userRegistrationFormService
-      .registerUser({
-        firstName: this.registerForm.get('firstName')?.value,
-        lastName: this.registerForm.get('lastName')?.value,
-        email: this.registerForm.get('email')?.value,
-        message: this.messageContent,
-      })
-      .subscribe({
-        next: () => this.userRegistrationFormService.displayGlobalMessage(),
-        complete: () => {
-          this.registerForm.reset();
-          this.isLoading$.next(false);
-        },
-        error: () => this.isLoading$.next(false),
-      });
+    this.userRegistrationFormService.submit(this.registerForm).subscribe({
+      complete: () => {
+        this.registerForm.reset();
+        this.isLoading$.next(false);
+      },
+      error: () => this.isLoading$.next(false),
+    });
   }
 }

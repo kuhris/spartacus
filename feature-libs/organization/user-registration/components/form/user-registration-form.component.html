@@ -211,8 +211,8 @@
                       [searchable]="true"
                       [clearable]="false"
                       [items]="regions"
-                      bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
-                      bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
+                      bindLabel="name"
+                      bindValue="isocode"
                       placeholder="{{
                         'userRegistrationForm.fields.state.placeholder'
                           | cxTranslate
