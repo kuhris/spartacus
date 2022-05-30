@@ -26,7 +26,7 @@ export class AccountSummaryAddressItemService extends ItemService<Address> {
 
   protected unitRouteParam$ = this.routingService
     .getParams()
-    .pipe(pluck(ROUTE_PARAMS.unitCode), distinctUntilChanged());
+    .pipe(pluck(ROUTE_PARAMS.accountSummaryCode), distinctUntilChanged());
 
   load(unitUid: string, addressId: string): Observable<Address> {
     return this.unitService
@@ -38,8 +38,8 @@ export class AccountSummaryAddressItemService extends ItemService<Address> {
     addressCode: string,
     address: Address
   ): Observable<OrganizationItemStatus<Address>> {
-    this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
-      this.unitService.updateAddress(unitCode, addressCode, address);
+    this.unitRouteParam$.pipe(first()).subscribe((accountSummaryCode) => {
+      this.accountSummaryService.updateAddress(accountSummaryCode, addressCode, address);
     });
     return this.unitService.getAddressLoadingStatus(addressCode);
   }
@@ -49,7 +49,7 @@ export class AccountSummaryAddressItemService extends ItemService<Address> {
   ): Observable<OrganizationItemStatus<Address>> {
     this.unitRouteParam$
       .pipe(first())
-      .subscribe((unitCode) => this.unitService.createAddress(unitCode, value));
+      .subscribe((accountSummaryCode) => this.accountSummaryService.createAddress(accountSummaryCode, value));
     return this.unitService.getAddressLoadingStatus(null);
   }
 
@@ -72,20 +72,20 @@ export class AccountSummaryAddressItemService extends ItemService<Address> {
       // we redirect to the list instead.
       this.launchList();
     } else {
-      this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
+      this.accountSummaryRouteParam$.pipe(first()).subscribe((accountSummaryCode) => {
         this.routingService.go({
           cxRoute: this.getDetailsRoute(),
-          params: { ...item, uid: unitCode },
+          params: { ...item, uid: accountSummaryCode },
         });
       });
     }
   }
 
   protected launchList() {
-    this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
+    this.accountSummaryRouteParam$.pipe(first()).subscribe((accountSummaryCode) => {
       this.routingService.go({
         cxRoute: 'orgUnitAddressList',
-        params: { uid: unitCode },
+        params: { uid: accountSummaryCode },
       });
     });
   }

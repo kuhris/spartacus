@@ -447,6 +447,18 @@ export interface OccEndpoints {
    */
   costCenterBudget?: string | OccEndpoint;
   /**
+   * Endpoint for accountSummaryDocument
+   *
+   * @member {string}
+   */
+  accountSummaryDocument?: string | OccEndpoint;
+  /**
+   * Endpoint for accountSummaryDocuments
+   *
+   * @member {string}
+   */
+  accountSummaryDocuments?: string | OccEndpoint;
+  /**
    * Endpoint for permission list
    *
    * @member {string}

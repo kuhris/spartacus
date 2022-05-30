@@ -1,5 +1,5 @@
 import { Address } from './address.model';
-import { User } from './misc.model';
+import { Currency, DocumentType, User } from './misc.model';
 
 // TODO(#8876): Should we simplify the models only for the fields required by the B2B checkout?
 export interface CostCenter {
@@ -35,4 +35,21 @@ export interface B2BApprovalProcess {
 export interface OrderApprovalPermissionType {
   code?: string;
   name?: string;
+}
+
+export interface AccountSummary {
+  id?: string;
+}
+
+export interface AccountSummaryDocument {
+  amount?: number;
+  currency?: Currency;
+  date?: Date;
+  documentNumber?: string;
+  documentType?: DocumentType;
+  formattedAmount?: string;
+  formattedOpenAmount?: string;
+  openAmount?: number;
+  selectable?: boolean;
+  status?: string;
 }

@@ -749,6 +749,29 @@ export namespace Occ {
 
   /**
    *
+   * An interface representing DocumentType.
+   */
+  export interface DocumentType {
+    /**
+     * @member {string} [code]
+     */
+    code?: string;
+    /**
+     * @member {boolean} [displayInAllList]
+     */
+    displayInAllList?: boolean;
+    /**
+     * @member {boolean} [includeInOpenBalance]
+     */
+    includeInOpenBalance?: boolean;
+    /**
+     * @member {string} [name]
+     */
+    name?: string;
+  }
+
+  /**
+   *
    * An interface representing Voucher.
    */
   export interface Voucher {
@@ -4212,6 +4235,25 @@ export namespace Occ {
 
   export enum NotificationType {
     BACK_IN_STOCK = 'BACK_IN_STOCK',
+  }
+
+  export interface AccountSummaryDocument {
+    amount?: number;
+    currency?: Currency;
+    date?: Date
+    documentNumber?: string;
+    documentType?: DocumentType;
+    formattedAmount?: string;
+    formattedOpenAmount?: string;
+    openAmount?: number;
+    selectable?: boolean;
+    status?: string;
+  }
+
+  export interface AccountSummaryList {
+    documents?: AccountSummaryDocument[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
   }
 
   export interface Budget {
