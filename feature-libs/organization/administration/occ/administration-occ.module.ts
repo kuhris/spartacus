@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CostCenterOccModule, provideDefaultConfig } from '@spartacus/core';
 import {
+  AccountSummaryAdapter,
+  ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER,
+  ACCOUNT_SUMMARY_DOCUMENTS_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
@@ -25,6 +28,7 @@ import {
   USER_GROUPS_NORMALIZER,
   USER_GROUP_NORMALIZER,
 } from '@spartacus/organization/administration/core';
+import { OccAccountSummaryAdapter } from './adapters/occ-account-summary.adapter';
 import { OccB2BUserAdapter } from './adapters/occ-b2b-users.adapter';
 import { OccBudgetAdapter } from './adapters/occ-budget.adapter';
 import { OccCostCenterAdapter } from './adapters/occ-cost-center.adapter';
@@ -33,6 +37,7 @@ import { OccPermissionAdapter } from './adapters/occ-permission.adapter';
 import { OccUserGroupAdapter } from './adapters/occ-user-group.adapter';
 import { defaultOccOrganizationConfig } from './config/default-occ-organization-config';
 import { OccBudgetSerializer } from './converters/occ-budget-serializer';
+import { OccAccountSummaryDocumentNormalizer } from './converters/occ-account-summary-document-normalizer';
 import { OccB2BUserNormalizer } from './converters/occ-b2b-user-normalizer';
 import { OccB2bUserSerializer } from './converters/occ-b2b-user-serializer';
 import { OccBudgetListNormalizer } from './converters/occ-budget-list-normalizer';
@@ -48,6 +53,7 @@ import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-no
 import { OccUserGroupListNormalizer } from './converters/occ-user-group-list-normalizer';
 import { OccUserGroupNormalizer } from './converters/occ-user-group-normalizer';
 import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
+import {OccAccountSummaryDocumentListNormalizer} from "./converters/occ-account-summary-document-list-normalizer";
 
 @NgModule({
   imports: [CommonModule, CostCenterOccModule],
@@ -155,6 +161,20 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     {
       provide: B2B_USERS_NORMALIZER,
       useExisting: OccUserListNormalizer,
+      multi: true,
+    },
+    {
+      provide: AccountSummaryAdapter,
+      useClass: OccAccountSummaryAdapter,
+    },
+    {
+      provide: ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER,
+      useExisting: OccAccountSummaryDocumentNormalizer,
+      multi: true,
+    },
+    {
+      provide: ACCOUNT_SUMMARY_DOCUMENTS_NORMALIZER,
+      useExisting: OccAccountSummaryDocumentListNormalizer,
       multi: true,
     },
   ],

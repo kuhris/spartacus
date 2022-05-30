@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AccountSummaryTreeService } from '../services/account-summary-tree.service';
 
 @Component({
-  selector: 'cx-org-unit-list',
+  selector: 'cx-org-account-summary-list',
   templateUrl: './account-summary-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

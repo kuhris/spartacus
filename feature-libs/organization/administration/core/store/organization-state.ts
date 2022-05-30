@@ -1,4 +1,5 @@
 import {
+  AccountSummaryDocument,
   Address,
   B2BApprovalProcess,
   B2BUnit,
@@ -14,6 +15,10 @@ import { B2BUnitNode } from '../model/unit-node.model';
 import { UserGroup } from '../model/user-group.model';
 
 export const ORGANIZATION_FEATURE = 'organization';
+
+export const ACCOUNT_SUMMARY_FEATURE = 'accountSummary';
+export const ACCOUNT_SUMMARY_ENTITIES = 'accountSummary-entities';
+export const ACCOUNT_SUMMARY_LIST = 'accountSummary-list';
 
 export const BUDGET_FEATURE = 'budget';
 export const BUDGET_ENTITIES = 'budget-entities';
@@ -88,6 +93,8 @@ export interface CostCenterManagement extends Management<CostCenter> {
   budgets: StateUtils.EntityLoaderState<ListModel>;
 }
 
+export interface AccountSummaryManagement extends Management<AccountSummaryDocument> {}
+
 export interface B2BUserManagement extends Management<B2BUser> {
   approvers: StateUtils.EntityLoaderState<ListModel>;
   permissions: StateUtils.EntityLoaderState<ListModel>;
@@ -99,6 +106,7 @@ export interface StateWithOrganization {
 }
 
 export interface OrganizationState {
+  [ACCOUNT_SUMMARY_FEATURE]: AccountSummaryManagement;
   [BUDGET_FEATURE]: BudgetManagement;
   [ORG_UNIT_FEATURE]: OrgUnits;
   [USER_GROUP_FEATURE]: UserGroupManagement;

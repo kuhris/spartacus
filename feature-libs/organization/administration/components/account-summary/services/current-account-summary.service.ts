@@ -17,7 +17,7 @@ export class CurrentAccountSummaryService extends CurrentItemService<B2BUnit> {
   }
 
   protected getParamKey() {
-    return ROUTE_PARAMS.unitCode;
+    return ROUTE_PARAMS.accountSummaryCode;
   }
 
   protected getItem(code: string): Observable<B2BUnit> {

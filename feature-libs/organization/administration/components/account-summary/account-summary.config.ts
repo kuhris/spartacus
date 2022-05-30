@@ -40,7 +40,7 @@ import { AccountSummaryRoutePageMetaResolver } from './services/account-summary-
 
 export const unitsCmsConfig: CmsConfig = {
   cmsComponents: {
-    ManageUnitsListComponent: {
+    ManageAccountSummaryListComponent: {
       component: AccountSummaryListComponent,
       providers: [
         {
@@ -67,7 +67,7 @@ export const unitsCmsConfig: CmsConfig = {
             component: AccountSummaryFormComponent,
           },
           {
-            path: `:${ROUTE_PARAMS.unitCode}`,
+            path: `:${ROUTE_PARAMS.accountSummaryCode}`,
             component: AccountSummaryDetailsComponent,
             data: {
               cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.details' },

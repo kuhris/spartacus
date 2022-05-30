@@ -93,6 +93,18 @@ declare module '@spartacus/core' {
      */
     costCenterBudget?: string | OccEndpoint;
     /**
+     * Endpoint for accountSummary
+     *
+     * @member {string}
+     */
+    accountSummaryDocument?: string | OccEndpoint;
+    /**
+     * Endpoint for accountSummaryDocuments
+     *
+     * @member {string}
+     */
+    accountSummaryDocuments?: string | OccEndpoint;
+    /**
      * Endpoint for organizations
      *
      * @member {string}
