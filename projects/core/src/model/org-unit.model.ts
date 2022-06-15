@@ -37,10 +37,6 @@ export interface OrderApprovalPermissionType {
   name?: string;
 }
 
-export interface AccountSummary {
-  id?: string;
-}
-
 export interface AccountSummaryDocument {
   amount?: number;
   currency?: Currency;

@@ -7,6 +7,6 @@ import { AccountSummaryApproverListComponent } from './account-summary-approver-
 
 @NgModule({
   imports: [I18nModule, RouterModule, SubListModule],
-  declarations: [AccountSummaryApproverListComponent, UnitAssignedApproverListComponent],
+  declarations: [AccountSummaryApproverListComponent, AccountSummaryAssignedApproverListComponent],
 })
 export class AccountSummaryApproverListModule {}

@@ -36,6 +36,7 @@ export class PageTitleComponent implements OnInit, AfterViewInit {
   }
 
   private setTitle(): void {
+    console.log('ab4');
     this.title$ = this.pageMetaService.getMeta().pipe(
       filter(isNotNullable),
       map((meta) => (meta.heading || meta.title) ?? '')

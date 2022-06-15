@@ -16,4 +16,4 @@ import { AccountSummaryCostCenterListComponent } from './account-summary-cost-ce
   ],
   declarations: [AccountSummaryCostCenterListComponent],
 })
-export class UnitCostCenterListModule {}
+export class AccountSummaryCostCenterListModule {}

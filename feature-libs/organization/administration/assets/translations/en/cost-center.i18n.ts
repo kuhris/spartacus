@@ -5,7 +5,7 @@ export const orgCostCenter = {
   active: 'Status',
   name: 'Name',
   currency: 'Currency',
-  unit: 'Parent Unit',
+  unit: 'Parent Unit123',
   actions: '',
 
   sortBy: 'Sort by',
@@ -15,7 +15,7 @@ export const orgCostCenter = {
     byCode: 'Code',
   },
 
-  hint: "All orders placed through your organization's purchase account are linked to a cost center for tracking purposes. Each unit can have multiple cost centers. To limit spending, budgets are assigned to cost centers. A buyer selects a cost center when checking out.",
+  hint: "456All orders placed through your organization's purchase account are linked to a cost center for tracking purposes. Each unit can have multiple cost centers. To limit spending, budgets are assigned to cost centers. A buyer selects a cost center when checking out.",
   disable: {
     confirm: 'Disable',
   },

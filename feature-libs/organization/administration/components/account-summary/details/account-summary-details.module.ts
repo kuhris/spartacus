@@ -8,6 +8,7 @@ import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { ItemExistsModule } from '../../shared/item-exists.module';
 import { AccountSummaryDetailsComponent } from './account-summary-details.component';
+import { CkTestComponent } from './cktest.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ import { AccountSummaryDetailsComponent } from './account-summary-details.compon
     KeyboardFocusModule,
     DisableInfoModule,
   ],
-  declarations: [AccountSummaryDetailsComponent],
-  exports: [AccountSummaryDetailsComponent],
+  declarations: [AccountSummaryDetailsComponent, CkTestComponent],
+  exports: [AccountSummaryDetailsComponent, CkTestComponent],
 })
 export class AccountSummaryDetailsModule {}

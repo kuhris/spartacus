@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { DisableInfoModule } from '../../../../shared/detail/disable-info/disable-info.module';
 import { SubListModule } from '../../../../shared/sub-list/sub-list.module';
-import { UnitUserRolesCellComponent } from './account-summary-user-link-cell.component';
+import { AccountSummaryUserRolesCellComponent } from './account-summary-user-link-cell.component';
 import { AccountSummaryUserListComponent } from './account-summary-user-list.component';
 
 @NgModule({
@@ -16,6 +16,6 @@ import { AccountSummaryUserListComponent } from './account-summary-user-list.com
     SubListModule,
     DisableInfoModule,
   ],
-  declarations: [AccountSummaryUserListComponent, UnitUserRolesCellComponent],
+  declarations: [AccountSummaryUserListComponent, AccountSummaryUserRolesCellComponent],
 })
 export class AccountSummaryUserListModule {}

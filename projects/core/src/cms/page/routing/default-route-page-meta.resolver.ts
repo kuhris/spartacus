@@ -16,7 +16,7 @@ import {
 export abstract class DefaultRoutePageMetaResolver
   implements RouteBreadcrumbResolver
 {
-  constructor(protected translation: TranslationService) {}
+  constructor(protected translation: TranslationService) {console.log('con1');}
 
   /**
    * Resolves breadcrumb based on the given url and the breadcrumb config.
@@ -41,6 +41,7 @@ export abstract class DefaultRoutePageMetaResolver
       return of([{ link: url, label: breadcrumbConfig.raw }]);
     }
 
+    console.log('bc1');
     return this.translateBreadcrumbLabel(breadcrumbConfig).pipe(
       map((label) => [{ label, link: url }])
     );
@@ -57,6 +58,7 @@ export abstract class DefaultRoutePageMetaResolver
         ? breadcrumbConfig
         : breadcrumbConfig.i18n;
 
+    console.log('bc2');
     return this.getParams().pipe(
       switchMap((params) => this.translation.translate(i18nKey, params ?? {}))
     );

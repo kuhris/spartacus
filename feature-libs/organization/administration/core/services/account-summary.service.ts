@@ -9,7 +9,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
-import { StateWithOrganization, AccountSummaryActions } from '../store/index';
+import {StateWithOrganization, AccountSummaryActions} from '../store/index';
 
 import {
   getAccountSummaryDocument,
@@ -18,6 +18,8 @@ import {
 } from '../store/selectors/account-summary.selector';
 
 import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
+import { OrganizationItemStatus} from "../model";
+import {getItemStatus} from "../utils/get-item-status";
 
 @Injectable({ providedIn: 'root' })
 export class AccountSummaryService {
@@ -25,6 +27,18 @@ export class AccountSummaryService {
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
     protected userIdService: UserIdService
   ) {}
+
+  // load(orgUnitId: string): void {
+  //   this.userIdService.takeUserId(true).subscribe(
+  //     (userId) =>
+  //       this.store.dispatch(
+  //         new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+  //       ),
+  //     () => {
+  //       // TODO: for future releases, refactor this part to thrown errors
+  //     }
+  //   );
+  // }
 
   LoadAccountSummaryDocument(documentNumber: string): void {
     this.userIdService.takeUserId(true).subscribe(
@@ -96,4 +110,20 @@ export class AccountSummaryService {
     );
   }
 
+  // todo: delete this function, was created just to make it build for now
+  getLoadingStatus(
+    documentNumber: string
+  ): Observable<OrganizationItemStatus<AccountSummaryDocument>> {
+    return getItemStatus(this.getAccountSummaryState(documentNumber));
+  }
+
+  // todo: delete this function, was created just to make it build for now
+  create(accountSummary: AccountSummaryDocument): void {
+    console.log(accountSummary);
+  }
+
+  // todo: delete this function, was created just to make it build for now
+  update(accountSummaryNumber: string, accountSummary: AccountSummaryDocument): void {
+    console.log(accountSummaryNumber, accountSummary)
+  }
 }

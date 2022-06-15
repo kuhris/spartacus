@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  B2BUnit,
+  AccountSummaryDocument,
   DefaultRoutePageMetaResolver,
   TranslationService,
 } from '@spartacus/core';
@@ -13,10 +13,12 @@ export class AccountSummaryRoutePageMetaResolver extends DefaultRoutePageMetaRes
     translation: TranslationService,
     protected currentItemService: CurrentAccountSummaryService
   ) {
+    console.log('called though');
     super(translation);
   }
 
-  protected getParams(): Observable<B2BUnit> {
+  protected getParams(): Observable<AccountSummaryDocument> {
+    console.log('is it working?');
     return this.currentItemService.item$;
   }
 }

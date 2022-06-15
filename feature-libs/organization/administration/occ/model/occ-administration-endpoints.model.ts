@@ -97,6 +97,12 @@ declare module '@spartacus/core' {
      *
      * @member {string}
      */
+    accountSummary?: string | OccEndpoint;
+    /**
+     * Endpoint for accountSummaryDocument
+     *
+     * @member {string}
+     */
     accountSummaryDocument?: string | OccEndpoint;
     /**
      * Endpoint for accountSummaryDocuments

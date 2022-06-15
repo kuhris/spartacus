@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { B2BUnit } from '@spartacus/core';
+import {
+  AccountSummaryDocument,
+  B2BUnit,
+} from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AccountSummaryFormService extends FormService<B2BUnit> {
-  protected patchData(item?: B2BUnit) {
-    this.toggleParentUnit(item);
-    super.patchData(item);
-  }
+export class AccountSummaryFormService extends FormService<AccountSummaryDocument> {
+  // protected patchData(item?: AccountSummaryDocument) {
+  //   this.toggleParentUnit(item);
+  //   super.patchData(item);
+  // }
 
   protected build() {
     const form = new FormGroup({});

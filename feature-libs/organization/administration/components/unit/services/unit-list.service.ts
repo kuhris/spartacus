@@ -29,6 +29,7 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
     protected unitItemService: UnitItemService,
     protected unitTreeService: UnitTreeService
   ) {
+    debugger;
     super(tableService);
   }
 

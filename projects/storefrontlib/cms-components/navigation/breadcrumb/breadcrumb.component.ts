@@ -22,15 +22,18 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
     protected pageMetaService: PageMetaService,
     private translation: TranslationService
   ) {
+    console.log('ab1');
     super(component, pageMetaService);
   }
 
   ngOnInit(): void {
+    console.log('ab2');
     super.ngOnInit();
     this.setCrumbs();
   }
 
   private setCrumbs(): void {
+    console.log('ab3');
     this.crumbs$ = combineLatest([
       this.pageMetaService.getMeta(),
       this.translation.translate('common.home'),

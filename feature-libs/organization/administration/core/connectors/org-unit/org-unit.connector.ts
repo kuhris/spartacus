@@ -42,6 +42,7 @@ export class OrgUnitConnector {
   }
 
   getTree(userId: string): Observable<B2BUnitNode> {
+    console.log('getting tree');
     return this.adapter.loadTree(userId);
   }
 

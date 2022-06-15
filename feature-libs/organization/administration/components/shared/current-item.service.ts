@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
+import {distinctUntilChanged, map, pluck, switchMap, tap} from 'rxjs/operators';
 
 /**
  * Abstract Base class for all organization entities. This class simplifies
@@ -11,7 +11,10 @@ import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
  */
 @Injectable()
 export abstract class CurrentItemService<T> {
-  constructor(protected routingService: RoutingService) {}
+  constructor(protected routingService: RoutingService) {
+    this.routingService.getParams().subscribe(a => console.log('aaa', a));
+    this.routingService.getRouterState().subscribe(rs => console.log('rs is ', rs));
+  }
 
   /**
    * Observes the key for the active organization item. The active key is observed
@@ -55,7 +58,10 @@ export abstract class CurrentItemService<T> {
   getRouterParam(paramKey: string): Observable<string> {
     return this.routingService
       .getParams()
-      .pipe(map((params) => params[paramKey]));
+      .pipe(
+        tap(irs => console.log('irs', irs)),
+        map((params) => params[paramKey])
+      );
   }
 
   abstract getError(_key: string): Observable<boolean>;

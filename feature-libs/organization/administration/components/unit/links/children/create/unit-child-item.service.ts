@@ -9,6 +9,7 @@ import {
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { CurrentUnitChildService } from './current-unit-child.service';
+import {AccountSummaryService} from "../../../../../core/services/account-summary.service";
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +19,10 @@ export class UnitChildItemService extends UnitItemService {
     protected currentItemService: CurrentUnitChildService,
     protected routingService: RoutingService,
     protected formService: UnitFormService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
+    protected accountSummaryService: AccountSummaryService,
   ) {
-    super(currentItemService, routingService, formService, unitService);
+    super(currentItemService, routingService, formService, unitService, accountSummaryService);
   }
 
   save(

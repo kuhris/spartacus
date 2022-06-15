@@ -28,6 +28,7 @@ export function defaultOrganizationAdministrationComponentsConfig(): CmsConfig {
           'ManageUsersListComponent',
           'ManageUserGroupsListComponent',
           'ManageAccountSummaryListComponent',
+          'ManageAccountSummaryDetailsComponent',
         ],
       },
     },
